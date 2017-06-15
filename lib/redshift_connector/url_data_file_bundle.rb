@@ -1,7 +1,7 @@
-require 'redshift-connector/data_file/reader'
-require 'redshift-connector/data_file/logger'
-require 'redshift-connector/data_file/abstract_data_file_bundle'
-require 'redshift-connector/data_file/url_data_file'
+require 'redshift_connector/reader'
+require 'redshift_connector/logger'
+require 'redshift_connector/abstract_data_file_bundle'
+require 'redshift_connector/url_data_file'
 
 module RedshiftConnector
   class UrlDataFileBundle < AbstractDataFileBundle

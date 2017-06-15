@@ -4,10 +4,10 @@ module RedshiftConnector
   end
 end
 
-require 'redshift-connector/data_file/reader/redshift_csv'
-require 'redshift-connector/data_file/reader/csv'
-require 'redshift-connector/data_file/reader/tsv'
-require 'redshift-connector/data_file/reader/exception'
+require 'redshift_connector/reader/redshift_csv'
+require 'redshift_connector/reader/csv'
+require 'redshift_connector/reader/tsv'
+require 'redshift_connector/reader/exception'
 
 module RedshiftConnector
   module Reader

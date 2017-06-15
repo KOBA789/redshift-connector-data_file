@@ -1,5 +1,5 @@
-require 'redshift-connector/data_file/reader/abstract'
-require 'redshift-connector/data_file/reader/exception'
+require 'redshift_connector/reader/abstract'
+require 'redshift_connector/reader/exception'
 require 'csv'
 
 module RedshiftConnector
