@@ -1,14 +1,20 @@
 module RedshiftConnector
-  module DataFile
-    @logger = nil
+  @logger = nil
 
-    def self.logger
-      # REVIEW: Reverse dependency
-      @logger || RedshiftConnector&.logger || Rails.logger
-    end
+  def RedshiftConnector.logger
+    # Defer to access Rails
+    @logger || Rails.logger
+  end
 
-    def self.logger=(logger)
-      @logger = logger
-    end
+  def RedshiftConnector.logger=(logger)
+    @logger = logger
+  end
+
+  class NullLogger
+    def noop(*args) end
+    alias error noop
+    alias warn noop
+    alias info noop
+    alias debug noop
   end
 end
