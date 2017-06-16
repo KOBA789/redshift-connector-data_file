@@ -2,7 +2,7 @@
 
 A gem to handle data files exported from Redshift
 
-[redshift-connector](https://github.com/aamine/redshift-coonector) uses this internally.
+[redshift-connector](https://github.com/bricolages/redshift-connector) uses this gem internally.
 
 ## Installation
 
@@ -22,4 +22,4 @@ Or install it yourself as:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/koba789/redshift-connector-data_file.
+Bug reports and pull requests are welcome on GitHub at https://github.com/bricolages/redshift-connector-data_file.
