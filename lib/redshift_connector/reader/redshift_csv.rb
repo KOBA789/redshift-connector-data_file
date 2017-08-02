@@ -30,7 +30,7 @@ module RedshiftConnector
       s = StringScanner.new(line)
       s.skip(/\s+/)
       until s.eos?
-        col = s.scan(/"(?:\\.|[^"\\]+)*"/) or raise MalformedCSVException, "CSV parse error at line #{lineno}"
+        col = s.scan(/"(?:\\.|[^"\\]+)*"/) or raise Reader::MalformedCSVException, "CSV parse error at line #{lineno}"
         row.push unescape_column(col)
         s.skip(/\s*/)    # skip line terminator on line ends
         s.skip(/,\s*/)
