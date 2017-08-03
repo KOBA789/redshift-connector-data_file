@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'redshift-connector/data_file'
+require 'redshift_connector/data_file'
 
 module RedshiftConnector
   module Reader
@@ -24,6 +24,10 @@ module RedshiftConnector
 
         assert_equal ['981179', '2017-01-07', '6', '852', 'show', '{"page"=>"4"}', '1', '1'],
           parse_row(%Q("981179","2017-01-07","6","852","show","{\\"page\\"=>\\"4\\"}","1","1"\n))
+
+        assert_raises RedshiftConnector::Reader::MalformedCSVException do
+          parse_row(%Q("xxx,"yyy"))
+        end
       end
     end
   end
