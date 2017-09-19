@@ -1,6 +1,4 @@
 require 'redshift_connector/abstract_data_file'
-require 'uri'
-require 'zlib'
 require 'open3'
 
 module RedshiftConnector
@@ -10,12 +8,14 @@ module RedshiftConnector
       @url = url
     end
 
+    attr_reader :url
+
     def key
-      URI.parse(@url).path
+      @url.path
     end
 
     def open
-      stdin, stdout, stderr, wait_th = Open3.popen3('curl', @url)
+      stdin, stdout, stderr, wait_th = Open3.popen3('curl', @url.to_s)
       stdin.close
       stderr.close
       stdout

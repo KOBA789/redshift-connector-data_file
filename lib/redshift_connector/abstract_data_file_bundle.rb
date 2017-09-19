@@ -1,5 +1,14 @@
 module RedshiftConnector
   class AbstractDataFileBundle
+    def initialize(filter: nil, batch_size: 1000, logger: RedshiftConnector.logger)
+      @filter = filter || lambda {|*row| row }
+      @batch_size = batch_size || 1000
+      @logger = logger
+    end
+
+    attr_reader :batch_size
+    attr_reader :logger
+
     def each_row(&block)
       each_object do |obj|
         obj.each_row(&block)
@@ -19,10 +28,11 @@ module RedshiftConnector
       data_files.select {|obj| obj.data_object? }
     end
 
+    # abstract data_files
+
     REPORT_SIZE = 10_0000
 
     def each_batch(report: true)
-      @logger.info "reader: #{@reader_class}"
       n = 0
       reported = 0
       do_each_batch(@batch_size) do |rows|

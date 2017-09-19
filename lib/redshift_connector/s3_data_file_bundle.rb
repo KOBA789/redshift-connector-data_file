@@ -32,13 +32,12 @@ module RedshiftConnector
     end
 
     def initialize(bucket, prefix, format: :csv, filter: nil, batch_size: 1000, logger: RedshiftConnector.logger)
+      super filter: filter, batch_size: batch_size, logger: logger
       @bucket = bucket
       @prefix = prefix
       @format = format
-      @filter = filter || lambda {|*row| row }
-      @batch_size = batch_size
-      @logger = logger
       @reader_class = Reader.get(format)
+      logger.info "reader: #{@reader_class}"
     end
 
     attr_reader :bucket
@@ -61,7 +60,7 @@ module RedshiftConnector
       pref = File.dirname(@prefix) + '/'
       keys = @bucket.objects(prefix: pref).map(&:key)
       unless keys.empty?
-        @logger.info "DELETE #{pref}*"
+        logger.info "DELETE #{pref}*"
         @bucket.delete_objects(keys)
       end
     end
