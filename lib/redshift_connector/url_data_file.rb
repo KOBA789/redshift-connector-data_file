@@ -1,5 +1,6 @@
 require 'redshift_connector/abstract_data_file'
-require 'open3'
+require 'net/http'
+require 'stringio'
 
 module RedshiftConnector
   class UrlDataFile < AbstractDataFile
@@ -15,10 +16,13 @@ module RedshiftConnector
     end
 
     def open
-      stdin, stdout, stderr, wait_th = Open3.popen3('curl', @url.to_s)
-      stdin.close
-      stderr.close
-      stdout
+      http = Net::HTTP.new(@url.host, @url.port)
+      http.use_ssl = (@url.scheme.downcase == 'https')
+      content = http.start {
+        res = http.get(@url.request_uri)
+        res.body
+      }
+      StringIO.new(content)
     end
   end
 end
