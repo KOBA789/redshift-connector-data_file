@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "redshift-connector-data_file"
-  spec.version       = "7.1.0"
+  spec.version       = "7.1.1"
   spec.authors       = ["Hidekazu Kobayashi", "Minero Aoki"]
   spec.email         = ["kobahide789@gmail.com", "aamine@loveruby.net"]
 
