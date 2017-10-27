@@ -2,7 +2,7 @@ require 'redshift_connector/abstract_data_file_bundle'
 require 'redshift_connector/s3_bucket'
 require 'redshift_connector/s3_data_file'
 require 'redshift_connector/logger'
-require 'aws-sdk'
+require 'aws-sdk-s3'
 
 module RedshiftConnector
   class S3DataFileBundle < AbstractDataFileBundle
