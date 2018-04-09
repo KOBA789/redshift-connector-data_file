@@ -1,15 +1,16 @@
 require 'test/unit'
 require 'redshift_connector/data_file'
+require 'stringio'
 
 module RedshiftConnector
   module Reader
     class TestRedshiftCSV < Test::Unit::TestCase
       def parse_row(line)
-        r = RedshiftCSV.new(nil)
-        r.parse_row(line, 1)
+        r = RedshiftCSV.new(StringIO.new(line))
+        r.read_row
       end
 
-      def test_parse_row
+      def test_read_row
         assert_equal ['xxx', 'yyyy', 'zzz'],
           parse_row(%Q("xxx","yyyy","zzz"\n))
 
@@ -18,6 +19,9 @@ module RedshiftConnector
 
         assert_equal ['x,x', "y\r\ny", 'z"z', 'a\\a'],
           parse_row(%Q("x\\,x","y\\r\\ny","z\\"z","a\\\\a"\n))
+
+        assert_equal ['x,x', "y\ny", 'z"z', 'a\\a'],
+          parse_row(%Q("x\\,x","y\\\ny","z\\"z","a\\\\a"\n))
 
         assert_equal ['981179', '2017-01-07', '6', 'show', '99', '3'],
           parse_row(%Q("981179","2017-01-07","6","show","99","3"\r\n))
@@ -28,6 +32,35 @@ module RedshiftConnector
         assert_raises RedshiftConnector::Reader::MalformedCSVException do
           parse_row(%Q("xxx,"yyy"))
         end
+      end
+
+      def parse_rows(text)
+        r = RedshiftCSV.new(StringIO.new(text))
+        rows = []
+        r.each_row do |row|
+          rows.push row
+        end
+        rows
+      end
+
+      def test_each_row
+        assert_equal [
+            ['xxx', 'yyy', 'zzz'],
+            ['aaa', 'bbb', 'ccc']
+          ],
+          parse_rows(%Q("xxx","yyy","zzz"\n"aaa","bbb","ccc"\n))
+
+        assert_equal [
+            ['xxx', 'yyy', 'zzz'],
+            ['aaa', 'bbb', 'ccc']
+          ],
+          parse_rows(%Q("xxx","yyy","zzz"\n"aaa","bbb","ccc"))
+
+        assert_equal [
+            ['xxx', 'yyy', 'zzz'],
+            ['aaa', "b\nb", 'c"c']
+          ],
+          parse_rows(%Q("xxx","yyy","zzz"\n"aaa","b\\\nb","c\\"c"))
       end
     end
   end
