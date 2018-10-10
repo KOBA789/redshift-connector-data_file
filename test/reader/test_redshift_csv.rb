@@ -29,6 +29,9 @@ module RedshiftConnector
         assert_equal ['981179', '2017-01-07', '6', '852', 'show', '{"page"=>"4"}', '1', '1'],
           parse_row(%Q("981179","2017-01-07","6","852","show","{\\"page\\"=>\\"4\\"}","1","1"\n))
 
+        assert_equal ['x,x', "longdatalongdatalongdatalongdatalongdatalongdatalongdata\ntrailingdata\n", 'z"z', 'a\\a'],
+          parse_row(%Q("x\\,x","longdatalongdatalongdatalongdatalongdatalongdatalongdata\\\ntrailingdata\\\n","z\\"z","a\\\\a"\n))
+
         assert_raises RedshiftConnector::Reader::MalformedCSVException do
           parse_row(%Q("xxx,"yyy"))
         end
