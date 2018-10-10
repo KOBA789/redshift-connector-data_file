@@ -86,7 +86,7 @@ module RedshiftConnector
       def scan_column
         s = @s
         s.skip(/[ \t]+/)
-        until column = s.scan(/"(?:\\.|[^"\\]+)*"/m)
+        until column = s.scan(/"(?:\\.|[^"\\])*"/m)
           fill_buffer or return nil
           return nil if s.eos?
           if s.rest_size > MAX_COLUMN_LENGTH
