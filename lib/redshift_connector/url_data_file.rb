@@ -1,9 +1,9 @@
-require 'redshift_connector/abstract_data_file'
+require 'redshift_connector/data_file'
 require 'net/http'
 require 'stringio'
 
 module RedshiftConnector
-  class UrlDataFile < AbstractDataFile
+  class UrlDataFile < DataFile
     def initialize(url, reader_class:)
       super reader_class: reader_class
       @url = url
